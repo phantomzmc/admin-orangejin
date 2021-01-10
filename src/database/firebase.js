@@ -1,5 +1,5 @@
-import { firebase } from "firebase/firebase-app";
-import "firebase/firebase-firestore"
+import firebase from 'firebase';
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyBYuQjPGDvmWfG1tgFQqT4VUH5DzCd3eHY",
@@ -10,8 +10,8 @@ const firebaseConfig = {
     appId: "1:1076004058618:web:c149927e97046e131d6043",
     measurementId: "G-TVS2V9FZPN"
 };
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-export default firebaseApp.fireStore();
+firebase.initializeApp(firebaseConfig);
+export default firebase;
 // <!-- The core Firebase JS SDK is always required and must be listed first -->
 // <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
 
