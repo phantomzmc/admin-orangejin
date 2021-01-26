@@ -21,7 +21,8 @@ const CreateOrder = () => {
     const [values, setValues] = React.useState({
         customerName: '',
         customerTel: '',
-        customerAddress: ''
+        customerAddress: '',
+        customerOrder: '',
     });
 
     const handleChange = (prop) => (event) => {
@@ -43,6 +44,7 @@ const CreateOrder = () => {
             customer_name: values.customerName,
             customer_tel: values.customerTel,
             customer_address: values.customerAddress,
+            customer_order : values.customerOrder,
             order_date: new Date(),
 
         }
@@ -58,7 +60,7 @@ const CreateOrder = () => {
                 value={values.customerName}
                 type="text"
                 name="customerName"
-                placeholder="Full name"
+                placeholder="ชื่อ - นาสกุล"
                 variant="outlined"
                 onChange={(e) => setValues({ customerName: e.target.value })}
             />
@@ -67,7 +69,7 @@ const CreateOrder = () => {
                 value={values.customerTel}
                 type="text"
                 name="tel"
-                placeholder="tel"
+                placeholder="เบอร์โทรศัพท์"
                 variant="outlined"
                 onChange={(e) => setValues({ customerTel: e.target.value })}
             />
@@ -76,12 +78,24 @@ const CreateOrder = () => {
                 value={values.customerAddress}
                 type="address"
                 name="address"
-                placeholder="address"
+                placeholder="ที่อยู่"
                 multiline
                 rows={4}
                 defaultValue="Default Value"
                 variant="outlined"
                 onChange={(e) => setValues({ customerAddress: e.target.value })}
+            />
+            <TextField
+                fullWidth
+                value={values.customerOrder}
+                type="address"
+                name="order"
+                placeholder="Ex : 5/5 = 1"
+                multiline
+                rows={4}
+                defaultValue="Default Value"
+                variant="outlined"
+                onChange={(e) => setValues({ customerOrder: e.target.value })}
             />
             <Button variant="contained" color="primary" type="submit">
                 Submit
@@ -106,7 +120,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(3),
     },
     textField: {
-        width: '25ch',
+        width: '25ch'
     },
 }));
 
