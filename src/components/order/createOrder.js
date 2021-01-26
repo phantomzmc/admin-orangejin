@@ -1,105 +1,138 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState } from 'react';
-import clsx from 'clsx';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import FilledInput from '@material-ui/core/FilledInput';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import axios from 'axios';
+
 
 import * as orderService from '../../service/order.service'
 const CreateOrder = () => {
     const classes = useStyles();
     const [values, setValues] = React.useState({
-        customerName: '',
-        customerTel: '',
-        customerAddress: '',
-        customerOrder: '',
+        name: '',
+        tel: '',
+        address: '',
+        order: ''
+    });
+    const [appState, setAppState] = useState({
+        loading: false,
+        repos: null,
     });
 
-    const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
+    // const handleChange = (prop) => (event) => {
+    //     setValues({ ...values, [prop]: event.target.value });
+    // };
 
-    const handleClickShowPassword = () => {
-        setValues({ ...values, showPassword: !values.showPassword });
-    };
+    // const handleClickShowPassword = () => {
+    //     setValues({ ...values, showPassword: !values.showPassword });
+    // };
 
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
+    // const handleMouseDownPassword = (event) => {
+    //     event.preventDefault();
+    // };
+    useEffect(() => {
+        setAppState({ loading: true });
+        // var url = 'https://admin-jintana-farm.herokuapp.com/';
+        // fetch(url, {
+        //     method: 'GET',
+        //     headers: {
+        //         'Access-Control-Allow-Origin': '*'
+        //     }
+        // }).then(res => res.json())
+        //     .then(response => console.log('Success:', response))
+        //     .catch(error => console.error('Error:', error));
+        // const apiUrl = `https://admin-jintana-farm.herokuapp.com/`;
+        // fetch(apiUrl)
+        //     .then((res) => 
+        //     console.log(res))
+        //     // res.json())
+        //     .catch((err) => console.log(err))
+        //     .then((repos) => {
+        //         console.log(repos)
+        //         setAppState({ loading: false, repos: repos });
+        //     });
 
-    const submitHandler = (e) => {
+        const result = axios({
+            method: 'GET',
+            url: "https://admin-jintana-farm.herokuapp.com/",
+            // data: {
+            //     message: msg
+            // },
+            // headers: {
+            //     'Content-Type': 'application/x-www-form-urlencoded',
+            //     Authorization: 'Bearer 3DOWa249oqswtKnejutokN5aDdcZMv2F5MtPMP7IwfK'
+            // }
+        })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((err) => {
+                console.log(JSON.stringify(err));
+            });
+        return result
+    }, [setAppState]);
+
+    const submitHandler = async (e) => {
         e.preventDefault();
-        console.log(values.customerTel);
+        console.log(values);
         const customer = {
-            customer_name: values.customerName,
-            customer_tel: values.customerTel,
-            customer_address: values.customerAddress,
-            customer_order : values.customerOrder,
-            order_date: new Date(),
+            customerName: "อารมย์ บุญญา",
+            customerTel: "0850372097",
+            customerAddress: "54/82 พุทธมลทลสาย5 ต.บางกระทึก อ.สามพราน จ.นครปฐม 73210",
+            customerOrder: "เบอร์ 5/5 = 1",
+            orderDate: new Date(),
 
         }
         console.log(JSON.stringify(customer));
 
-        orderService.createOrder('10-01-2021', customer);
+        await orderService.createOrder('10-01-2021', customer);
     }
     return (
 
         <form onSubmit={submitHandler}>
             <TextField
                 fullWidth
-                value={values.customerName}
+                value={values.name}
                 type="text"
-                name="customerName"
+                name="name"
                 placeholder="ชื่อ - นาสกุล"
                 variant="outlined"
-                onChange={(e) => setValues({ customerName: e.target.value })}
+                onChange={(e) => setValues({ name: e.target.value })}
             />
             <TextField
                 fullWidth
-                value={values.customerTel}
+                value={values.tel}
                 type="text"
                 name="tel"
                 placeholder="เบอร์โทรศัพท์"
                 variant="outlined"
-                onChange={(e) => setValues({ customerTel: e.target.value })}
+                onChange={(e) => setValues({ tel: e.target.value })}
             />
             <TextField
                 fullWidth
-                value={values.customerAddress}
+                value={values.address}
                 type="address"
                 name="address"
                 placeholder="ที่อยู่"
-                multiline
-                rows={4}
-                defaultValue="Default Value"
                 variant="outlined"
-                onChange={(e) => setValues({ customerAddress: e.target.value })}
+                onChange={(e) => setValues({ address: e.target.value })}
             />
-            <TextField
+            {/* <TextField
                 fullWidth
-                value={values.customerOrder}
-                type="address"
+                value={values.order}
+                type="text"
                 name="order"
                 placeholder="Ex : 5/5 = 1"
                 multiline
                 rows={4}
-                defaultValue="Default Value"
                 variant="outlined"
-                onChange={(e) => setValues({ customerOrder: e.target.value })}
-            />
+                onChange={(e) => setValues({ order: e.target.value })}
+            /> */}
+
             <Button variant="contained" color="primary" type="submit">
                 Submit
-            </Button>   
+            </Button>
             {/* <button type="submit">Submit</button> */}
         </form>
 
